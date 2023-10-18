@@ -11,13 +11,13 @@ const ModalHeaderContent = () => {
             <p>Lo tocaste tanto que lo mataste.</p>
             <p>
               Por otro lado, eres una persona muy curiosa y has descubierto
-              esto. :)
+              esto.
             </p>
           </Grid.Column>
         </Grid.Row>
       </Grid>
 
-      <style jsx>{`
+      <style>{`
         .container {
           padding: 2rem;
         }

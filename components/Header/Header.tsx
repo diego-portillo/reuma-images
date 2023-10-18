@@ -34,7 +34,7 @@ const Header = () => {
         closeOnDimmerClick={false}
       />
 
-      <style jsx>
+      <style>
         {`
           .container {
             margin: 2rem 0;

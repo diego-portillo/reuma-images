@@ -24,7 +24,7 @@ const Navbar = () => {
           </Link>
         </Menu.Menu>
       </Container>
-      <style jsx global>{`
+      <style>{`
         .ui.menu.huge {
           font-size: 1.5rem;
         }

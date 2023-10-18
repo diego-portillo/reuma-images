@@ -30,7 +30,7 @@ const ProductAttributes = ({
       </Table.Body>
     </Table>
 
-    <style jsx>{`
+    <style>{`
       .container :global(.attr-name) {
         text-transform: capitalize;
       }

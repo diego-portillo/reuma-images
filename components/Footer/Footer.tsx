@@ -98,7 +98,7 @@ const Footer = () => (
       </div>
     </Container>
 
-    <style jsx>{`
+    <style>{`
       .colophon {
         text-align: center;
         margin-top: 3.2rem;
