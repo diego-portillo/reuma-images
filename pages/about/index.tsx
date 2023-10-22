@@ -1,33 +1,24 @@
 import React from 'react'
 import { Image, Header } from 'semantic-ui-react'
 import Layout from '@components/Layout/Layout'
+import Link from 'next/link'
 
 const avoFacts = [
   {
-    title: 'Most avocados come from Mexico',
+    title: 'Aplicación Web Demostrativa: Banco de imágenes para estudios reumatológicos.',
     content:
-      'While avocados are grown in California and Florida, the majority sold in grocery stores come from south central Mexico. The main reason for the abundance of “south of the border” avocados is that Mexico is blessed with a year-round growing climate. The avocado is believed to have originated in the state of Puebla, Mexico, as far back as 10,000 B.C.',
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec finibus, leo in mattis hendrerit, sapien sem placerat leo, accumsan viverra odio nisl nec sem. Cras consectetur, metus vel vestibulum venenatis, sem metus tincidunt neque, ac aliquam sem erat at lorem. Cras pretium euismod gravida. In varius tortor eget erat venenatis vulputate. Etiam non felis massa. Nam eu tellus ut lectus sagittis tincidunt. Morbi id metus gravida, laoreet nunc a, facilisis eros. Vestibulum viverra efficitur lacus quis aliquet. Nullam nulla mi, rhoncus quis congue vitae, ultricies a massa. In hac habitasse platea dictumst. In id facilisis libero, at hendrerit turpis. Etiam congue nisl nisl, at varius ex eleifend semper. Pellentesque vel pretium massa.',
   },
   {
-    title: 'The conquistadors were huge fans.',
+    title: 'Financiamiento del proyecto',
     content:
-      'Spanish explorers arriving in Mexico during the 16th century survived on avocados and were the first Europeans to consume them. As a result of the Spanish Conquest, avocados spread to South America and Central America. ',
+      'Nulla facilisis, lectus pharetra sodales interdum, lorem eros efficitur lorem, non malesuada dolor leo quis sapien. In efficitur, elit eu convallis accumsan, neque turpis suscipit lorem, quis porttitor purus tortor non ex. Quisque urna magna, vestibulum non quam quis, ullamcorper laoreet enim. Phasellus gravida ac mi at pharetra. Vivamus maximus orci et vestibulum cursus. Aenean commodo lobortis urna, ac viverra est finibus vel. Mauris vel sodales purus, vitae tempor metus. Praesent tempus ante facilisis leo tempor pretium. Nam maximus libero id felis mollis luctus. Aliquam malesuada, tellus non.',
   },
   {
-    title: '“Avocado” wasn’t its original name.',
+    title: 'Colaboradores',
     content:
-      'Irishman Sir Hans Sloane called it an avocado in 1696 in a Jamaican-plants catalog. He also dubbed the avocado tree the “alligator pear tree.”',
-  },
-  {
-    title: 'It’s actually a fruit.',
-    content:
-      'Did you know that an avocado is a fruit? While definitely not sweet, it falls firmly in the fruit-not the vegetable-family. That’s because the avocado tree is part of the flowering-plant family Lauraceae.',
-  },
-  {
-    title: 'There’s a secret trick to ripening them up quick',
-    content:
-      'Need to ripen that avocado ASAP? Place it in a brown paper bag with a banana or two. The bananas will release ethylene gas, a natural plant hormone that aids in ripening fruit. On the other hand, check out this guide to learn how to store them for later.',
-  },
+      'Paola Pusineri, Bruna Pusineri, Sodales Interdum, Nulla Facilisis, Lectus Pharetra',
+  }
 ]
 
 const AboutPage = () => {
@@ -35,28 +26,28 @@ const AboutPage = () => {
     <Layout>
       <section>
         <Header as="h1" textAlign="center">
-          13 Surprising Facts About Avocados
+          Sobre este proyecto
         </Header>
         <figure>
-          <Image src="/images/avocados.jpg" alt="Avocados on a table" />
+          <Image src="/images/demo.webp" alt="reuma-hand" />
           <figcaption>
-            Originally from{' '}
-            <a
+            Desarrollado por{' '}
+            <Link
               target="_blank"
-              href="https://www.tasteofhome.com/article/13-surprising-facts-about-avocados/"
+              href="https://diegoportillo.dev/"
             >
-              Taste of Home
-            </a>
+              Diego Portillo
+            </Link>
           </figcaption>
         </figure>
-        <ol>
+        <ul>
           {avoFacts.map(({ title, content }) => (
             <li key={title}>
               <h3 className="ui header">{title}</h3>
               <p>{content}</p>
             </li>
           ))}
-        </ol>
+        </ul>
       </section>
 
       <style jsx>{`
@@ -76,7 +67,7 @@ const AboutPage = () => {
           color: grey;
         }
 
-        ol {
+        ul {
           list-style: none;
 
           // Look ma! Responsive grid with no Media queries :)
@@ -89,18 +80,7 @@ const AboutPage = () => {
           // https://moderncss.dev/totally-custom-list-styles/
           counter-reset: orderedlist;
         }
-        li::before {
-          counter-increment: orderedlist;
-          content: counter(orderedlist);
-
-          // Boring stuff
-          position: absolute;
-          top: -43px;
-          left: -5px;
-          color: #cecece;
-          font-size: 5rem;
-          font-weight: bold;
-        }
+        
 
         li {
           position: relative;

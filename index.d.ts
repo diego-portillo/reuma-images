@@ -1,4 +1,3 @@
-type Url = string
 type Json =
   | string
   | number
@@ -7,28 +6,28 @@ type Json =
   | { [property: string]: Json }
   | Json[]
 
-type TProductId = string
+type TImageId = string
 
-type TProductAttributes = {
+type TImageAttributes = {
   description: string
-  shape: string
-  hardiness: string
-  taste: string
+  desease: string
+  approvalDate: Date
+  approvedBy: string
 }
 
-type TProduct = {
-  id: TProductId
+type TImage = {
+  id: TImageId
   name: string
-  sku: string
-  price: number
-  image: Url
-  attributes: TProductAttributes
+  uploadDate: Date
+  uploadedBy: string
+  url: string
+  attributes: TImageAttributes
 }
 
-type TAPIAVODetailResponse = TProduct
+type TAPIReumaDetailResponse = TImage
 
-type TAPIAvoResponse = {
+type TAPIReumaResponse = {
   length: number
-  data: TProduct[]
+  data: TImage[]
   error?: string
 }

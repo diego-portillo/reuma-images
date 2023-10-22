@@ -12,14 +12,14 @@ const Navbar = () => {
         <Link href="/" passHref>
           <Menu.Item
             active={pathname === '/'}
-            title="Inicio | Todos los productos"
+            title="Inicio | Todas las imágenes"
           >
             Avo Store
           </Menu.Item>
         </Link>
         <Menu.Menu position="right">
-          <Link href="/cart" passHref>
-            <Menu.Item active={pathname === '/cart'}>
+          <Link href="/cuenta" passHref>
+            <Menu.Item active={pathname === '/cuenta'}>
             </Menu.Item>
           </Link>
         </Menu.Menu>

@@ -29,7 +29,7 @@ const Header = () => {
         content={{ children: ModalHeaderContent }}
         onCancel={closeModal}
         onConfirm={closeModal}
-        cancelButton="Ay, lo siento"
+        cancelButton="Cerrar"
         confirmButton="OK"
         closeOnDimmerClick={false}
       />

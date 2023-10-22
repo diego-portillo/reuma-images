@@ -19,42 +19,41 @@ const Footer = () => (
             <Header as="h4" content="Nosotros" />
             <List>
               <List.Item>
-                <Link href="/about">
-                  <a>Conoce más</a>
+                <Link href="/about" passHref>
+                  Conoce más
                 </Link>
               </List.Item>
             </List>
           </Grid.Column>
           <Grid.Column width={5}>
-            <Header as="h4" content="Servicios" />
+            <Header as="h4" content="Imagenes" />
             <List>
               <List.Item>
                 <Link href="/">
-                  <a>Todos los productos</a>
+                  Todas las imágenes
                 </Link>
               </List.Item>
             </List>
           </Grid.Column>
           <Grid.Column width={7}>
-            <Header as="h4">Hecho para</Header>
+            <Header as="h4">Demostración hecha para</Header>
             <p>
-              <a href="https://platzi.com/">Platzi y su curso de Next.JS</a> de
-              Platzi dictado por{' '}
-              <a href="https://twitter.com/jonalvarezz">@jonalvarezz</a>
+              <Link href="https://www.med.una.py/index.php/hospital-hc">Hospital de Clínicas</Link> por{' '}
+              <Link href="https://diegoportillo.dev">Diego Portillo</Link>
             </p>
             <List horizontal style={{ display: 'flex' }}>
               <List.Item
-                icon="twitter"
+                icon="linkedin"
                 style={{ display: 'flex' }}
-                content={<a href="https://twitter.com/jonalvarezz">Twitter</a>}
+                content={<Link href="https://www.linkedin.com/in/diego-jose-portillo-martinez-a0a1b01a3/">LinkedIn</Link>}
               />
               <List.Item
                 icon="github"
                 style={{ display: 'flex' }}
                 content={
-                  <a href="https://github.com/jonalvarezz/platzi-nextjs">
+                  <Link href="https://github.com/diego-portillo/reuma-images">
                     GitHub
-                  </a>
+                  </Link>
                 }
               />
             </List>
@@ -63,37 +62,29 @@ const Footer = () => (
       </Grid>
       <div className="colophon">
         <p className="colophon-entry">
-          Icons made by{' '}
-          <a
+          Íconos hechos por{' '}
+          <Link
             target="_blank"
             href="https://www.flaticon.com/authors/freepik"
             title="Freepik"
           >
             Freepik
-          </a>
-          {' from '}
-          <a target="_blank" href="https://www.flaticon.com/" title="Flaticon">
+          </Link>
+          {' de '}
+          <Link target="_blank" href="https://www.flaticon.com/" title="Flaticon">
             www.flaticon.com
-          </a>
+          </Link>
         </p>
         <p className="colophon-entry">
-          Avocado images taken from{' '}
-          <a
+          Imágenes referenciales tomadas de{' '}
+          <Link
             className="acnor"
             target="_blank"
-            href="https://www.californiaavocado.com/avocado101/avocado-varieties"
-            title="California Avocado"
+            href="https://es.wikipedia.org"
+            title="Wikipedia"
           >
-            Avocado 101
-          </a>
-          {' at '}
-          <a
-            target="_blank"
-            href="https://www.californiaavocado.com"
-            title="Flaticon"
-          >
-            California Avocado
-          </a>
+           Wikipedia
+          </Link>
         </p>
       </div>
     </Container>

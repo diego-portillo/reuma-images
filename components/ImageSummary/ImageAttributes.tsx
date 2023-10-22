@@ -1,12 +1,12 @@
 import React from 'react'
 import { Header, Divider, Table } from 'semantic-ui-react'
 
-const ProductAttributes = ({
+const ImageAttributes = ({
   description,
   ...otherAttributes
-}: TProductAttributes) => (
+}: TImageAttributes) => (
   <section className="container">
-    <Header as="h3">About this avocado</Header>
+    <Header as="h3">Sobre esta imagen</Header>
     <p>{description}</p>
 
     <Divider />
@@ -14,7 +14,7 @@ const ProductAttributes = ({
     <Table celled>
       <Table.Header>
         <Table.Row>
-          <Table.HeaderCell colSpan="2">Attributes</Table.HeaderCell>
+          <Table.HeaderCell colSpan="2">Detalles</Table.HeaderCell>
         </Table.Row>
       </Table.Header>
 
@@ -23,7 +23,7 @@ const ProductAttributes = ({
           <Table.Row key={key}>
             <Table.Cell className="attr-name">{key}</Table.Cell>
             <Table.Cell>
-              {otherAttributes[key as keyof typeof otherAttributes]}
+              {otherAttributes[key as keyof typeof otherAttributes].toString()}
             </Table.Cell>
           </Table.Row>
         ))}
@@ -38,4 +38,4 @@ const ProductAttributes = ({
   </section>
 )
 
-export default ProductAttributes
+export default ImageAttributes

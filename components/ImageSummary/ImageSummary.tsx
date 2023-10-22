@@ -1,24 +1,24 @@
 import React from 'react'
 import { Item, Label } from 'semantic-ui-react'
 
-import ProductAttributes from './ImageAttributes'
+import ImageAttributes from './ImageAttributes'
 
-type ProductSummaryProps = {
-  product: TProduct
+type ImageSummaryProps = {
+  image: TImage
 }
 
-const ProductSummary = ({ product }: ProductSummaryProps) => (
+const ImageSummary = ({ image }: ImageSummaryProps) => (
   <>
     <Item.Group as="section">
       <Item style={{ alignItems: 'center' }}>
         <Item.Image size="medium">
-          <img src={product.image} alt={product.name} />
+          <img src={image.url} alt={image.name} />
         </Item.Image>
         <Item.Content>
-          <Item.Header as="h1">{product.name}</Item.Header>
+          <Item.Header as="h1">{image.name}</Item.Header>
           <Item.Description>
-            <p>{product.price}</p>
-            <Label>{`SKU: ${product.sku}`}</Label>
+            <p>{image.uploadedBy}</p>
+            <Label>{`Fecha: ${image.uploadDate}`}</Label>
           </Item.Description>
           <Item.Extra>
           
@@ -26,8 +26,8 @@ const ProductSummary = ({ product }: ProductSummaryProps) => (
         </Item.Content>
       </Item>
     </Item.Group>
-    <ProductAttributes {...product.attributes} />
+    <ImageAttributes {...image.attributes} />
   </>
 )
 
-export default ProductSummary
+export default ImageSummary

@@ -1,12 +1,35 @@
-import React from 'react';
+import React from 'react'
+import Link from 'next/link'
+import { GetStaticProps } from 'next'
+import fetch from 'isomorphic-unfetch'
+import Layout from '@components/Layout/Layout'
+import Header from '@components/Header/Header'
+import ImageList from '@components/ImageList/ImageList'
 
-const HomePage = () => {
+export const getStaticProps: GetStaticProps = async () => {
+  const response = await fetch('http://localhost:3000/api/image')
+  const { data: imageList }: TAPIReumaResponse = await response.json()
+
+  return {
+    props: {
+      imageList,
+    },
+  }
+}
+
+const HomePage = ({ imageList }: { imageList: TImage[] }) => {
   return (
-    <div>
-      <h1>Welcome to the Home Page</h1>
-      {/* Add your content here */}
-    </div>
-  );
-};
+    <Layout>
+      <Header />
+      <ImageList images={imageList} />
+      <style jsx>{`
+        section {
+          text-align: center;
+          margin-bottom: 2rem;
+        }
+      `}</style>
+    </Layout>
+  )
+}
 
-export default HomePage;
+export default HomePage
