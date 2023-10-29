@@ -102,7 +102,7 @@ const data: Record<TImageId, TImage> = {
     id: 't9dv25gs',
     uploadDate: new Date(),
     uploadedBy: "Dr. Andres Galeano",
-    url: '/images/plomialgia.png',
+    url: '/images/polimialgia.png',
     attributes: {
       description:
         'La polimialgia reumática es un síndrome que se experimenta como dolor o rigidez, generalmente en el cuello, los hombros, la parte superior de los brazos y las caderas, pero que puede ocurrir en todo el cuerpo. El dolor puede ser repentino o ocurrir gradualmente durante un período.',
@@ -111,7 +111,7 @@ const data: Record<TImageId, TImage> = {
       approvedBy: 'Admin',
     },
   },
-  t345w48y: {
+  't345w48y': {
     name: 'Cuello espondilitis anquilosante',
     id: 't345w48y',
     uploadDate: new Date(),

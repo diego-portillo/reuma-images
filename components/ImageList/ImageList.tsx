@@ -1,30 +1,51 @@
-import React from 'react'
-import { Card } from 'semantic-ui-react'
-import Link from 'next/link'
-import Image from 'next/image'
+import React from 'react';
+import { Card } from 'semantic-ui-react';
+import Link from 'next/link';
+import Image from 'next/image';
 
 type ImageListProps = {
-  images: TImage[]
-}
+  images: TImage[];
+};
 
 const mapImagesToCards = (images: TImage[]) =>
-images.map(({ name, id, uploadDate, url }) => (
-    <Link key={id} href={`/image/${id}`} passHref>
-      <Card
-        as="a"
-        header={name}
-        image={{ children:() =>  <Image src={url} width={333} height={333} alt={name}/> }}
-        meta={{
-          children:() =>  <Card.Meta style={{ color: 'dimgray' }}>{uploadDate.toString()}</Card.Meta>,
-        }}
-      />
+  images.map(({ name, id, uploadDate, url, uploadedBy }) => (
+    <Link style={{margin: '2rem'}} key={id} href={`/images/${id}`} passHref className='card-link-container'>
+      <Card as="a">
+        <div>
+        <div className='image-container' style={{ margin: 'auto 0.5rem', height: '20rem', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+  <Image src={url} layout="responsive" width={280} height={222} alt={name} style={{ maxHeight: '19rem', maxWidth: '100%' }} />
+</div>
+        </div>
+        <Card.Content>
+          <Card.Header>{name}</Card.Header>
+          <Card.Meta className='card-meta-text'>{uploadedBy}</Card.Meta>
+          <Card.Meta className='card-meta-text'>{uploadDate.toString().substring(0, 10)}</Card.Meta>
+        </Card.Content>
+      </Card>
     </Link>
-  ))
+  ));
 
 const ImageList = ({ images }: ImageListProps) => (
-  <Card.Group itemsPerRow={2} stackable>
-    {mapImagesToCards(images)}
-  </Card.Group>
-)
+  <div className='image-list-container'>
+    <Card.Group three centered className='cards-container'>
+      {mapImagesToCards(images)}
+    </Card.Group>
+    <style jsx>{`
+    .image-list-container, .cards-container{
+      display: flex;
+      justify-content:center;
+      width:100%;
+    }
+      .card-meta-text{
+        color: dimgray;
+        text-align: center;
+      }
+      .image-container {
+        width:90% !important;
+        display: block !important;
+      }
+    `}</style>
+  </div>
+);
 
-export default ImageList
+export default ImageList;

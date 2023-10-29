@@ -6,11 +6,12 @@ import ImageSummary from '@components/ImageSummary/ImageSummary'
 import { GetStaticPaths, GetStaticProps } from 'next'
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const response = await fetch('https://localhost:3000/api/image')
+  const response = await fetch('http://localhost:3000/api/image')
+  console.log("response:" + response)
   const { data }: TAPIReumaResponse = await response.json()
-
+  console.log("data: "+ data)
   const paths = data.map(({ id }) => ({ params: { id } }))
-
+  console.log("paths:"+paths)
   return {
     // Statically generate all paths
     paths,
@@ -26,8 +27,9 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const response = await fetch(
     `http://localhost:3000/api/image/${params?.id}`
   )
+  console.log("response:" + response)
   const image = await response.json()
-
+  console.log("image:" + image)
   // Pass post data to the page via props
   return { props: { image } }
 }

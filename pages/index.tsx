@@ -3,7 +3,6 @@ import Link from 'next/link'
 import { GetStaticProps } from 'next'
 import fetch from 'isomorphic-unfetch'
 import Layout from '@components/Layout/Layout'
-import Header from '@components/Header/Header'
 import ImageList from '@components/ImageList/ImageList'
 
 export const getStaticProps: GetStaticProps = async () => {
@@ -20,7 +19,6 @@ export const getStaticProps: GetStaticProps = async () => {
 const HomePage = ({ imageList }: { imageList: TImage[] }) => {
   return (
     <Layout>
-      <Header />
       <ImageList images={imageList} />
       <style jsx>{`
         section {
