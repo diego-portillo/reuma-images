@@ -10,11 +10,11 @@ type ImageListProps = {
 const mapImagesToCards = (images: TImage[]) =>
   images.map(({ name, id, uploadDate, url, uploadedBy }) => (
     <Link style={{margin: '2rem'}} key={id} href={`/images/${id}`} passHref className='card-link-container'>
-      <Card as="a">
+      <Card>
         <div>
         <div className='image-container' style={{ margin: 'auto 0.5rem', height: '20rem', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-  <Image src={url} layout="responsive" width={280} height={222} alt={name} style={{ maxHeight: '19rem', maxWidth: '100%' }} />
-</div>
+          <Image src={url} layout="responsive" width={280} height={222} alt={name} style={{ maxHeight: '19rem', maxWidth: '100%' }} />
+        </div>
         </div>
         <Card.Content>
           <Card.Header>{name}</Card.Header>
