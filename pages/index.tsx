@@ -7,11 +7,12 @@ import ImageList from '@components/ImageList/ImageList'
 
 export const getStaticProps: GetStaticProps = async () => {
   const response = await fetch('http://localhost:3000/api/image')
-  const { data: imageList }: TAPIReumaResponse = await response.json()
+  const { data: allImageList }: TAPIReumaResponse = await response.json()
+  const approvedImageList = allImageList.filter((image: TImage) => image.approved)
 
   return {
     props: {
-      imageList,
+      imageList: approvedImageList,
     },
   }
 }

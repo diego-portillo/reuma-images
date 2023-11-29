@@ -7,7 +7,7 @@ const Navbar = () => {
   const { pathname } = useRouter()
 
   return (
-    <Menu size="huge" borderless>
+    <Menu size="large" borderless>
       <Container fluid>
       <Menu.Menu position="left">
           <Link href="/" passHref>
@@ -29,7 +29,7 @@ const Navbar = () => {
           
       </Menu.Menu>
       <Menu.Menu position="right">
-      <Link href="/cuenta" passHref>
+      <Link href="/iniciar-sesion" passHref>
             <Menu.Item className={pathname === '/cuenta' ? 'active-link' : ''}>
               Iniciar Sesión
             </Menu.Item>

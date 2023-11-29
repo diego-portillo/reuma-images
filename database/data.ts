@@ -12,6 +12,7 @@ const data: Record<TImageId, TImage> = {
       approvalDate: new Date(),
       approvedBy: 'Admin',
     },
+    approved: true
   },
   '6trfgkkj': {
     name: 'Piel Lupus',
@@ -26,6 +27,7 @@ const data: Record<TImageId, TImage> = {
       approvalDate: new Date(),
       approvedBy: 'Admin',
     },
+    approved: true
   },
   '7bcr49em': {
     name: 'Rodilla Osteoartritis',
@@ -40,6 +42,7 @@ const data: Record<TImageId, TImage> = {
       approvalDate: new Date(),
       approvedBy: 'Admin',
     },
+    approved: true
   },
   '098323ks': {
     name: 'Piel esclerodermia',
@@ -54,6 +57,7 @@ const data: Record<TImageId, TImage> = {
       approvalDate: new Date(),
       approvedBy: 'Admin',
     },
+    approved: true
   },
   '2zd33b9c': {
     name: 'Codo Gota',
@@ -68,6 +72,7 @@ const data: Record<TImageId, TImage> = {
       approvalDate: new Date(),
       approvedBy: 'Admin',
     },
+    approved: false
   },
   '3zd33b8c': {
     name: 'Manos Síndrome de Sjögren',
@@ -82,6 +87,7 @@ const data: Record<TImageId, TImage> = {
       approvalDate: new Date(),
       approvedBy: 'Admin',
     },
+    approved: false
   },
   'fpr72m9k': {
     name: 'Dedos artritis psoriásica',
@@ -96,6 +102,7 @@ const data: Record<TImageId, TImage> = {
       approvalDate: new Date(),
       approvedBy: 'Admin',
     },
+    approved: false
   },
   't9dv25gs': {
     name: 'Cabeza polimialgia reumática',
@@ -110,6 +117,7 @@ const data: Record<TImageId, TImage> = {
       approvalDate: new Date(),
       approvedBy: 'Admin',
     },
+    approved: false
   },
   't345w48y': {
     name: 'Cuello espondilitis anquilosante',
@@ -124,6 +132,7 @@ const data: Record<TImageId, TImage> = {
       approvalDate: new Date(),
       approvedBy: 'Admin',
     },
+    approved: false
   },
 }
 

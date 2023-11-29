@@ -22,6 +22,7 @@ type TImage = {
   uploadedBy: string
   url: string
   attributes: TImageAttributes
+  approved: boolean
 }
 
 type TAPIReumaDetailResponse = TImage

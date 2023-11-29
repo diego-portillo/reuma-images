@@ -21,7 +21,20 @@ const ImageAttributes = ({
       <Table.Body>
         {Object.keys(otherAttributes).map((key) => (
           <Table.Row key={key}>
-            <Table.Cell className="attr-name">{key}</Table.Cell>
+            <Table.Cell className="attr-name">{(() => {
+          switch (key) {
+            case 'desease':
+              return 'Enfermedad';
+            case 'description':
+              return 'Descripcion';
+            case 'approvalDate':
+              return 'Fecha de la Imagen';
+            case 'approvedBy':
+              return 'Aprobado por';
+            default:
+              return key;
+          }
+        })()}</Table.Cell>
             <Table.Cell>
               {otherAttributes[key as keyof typeof otherAttributes].toString()}
             </Table.Cell>
