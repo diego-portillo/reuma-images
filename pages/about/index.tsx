@@ -29,7 +29,7 @@ const AboutPage = () => {
           Sobre este proyecto
         </Header>
         <figure>
-          <Image src="/images/demo.webp" alt="reuma-hand" />
+          <Image src="/images/demo.webp" alt="reuma-hand" style={{margin: '0 auto'}}/>
           <figcaption>
             Desarrollado por{' '}
             <Link
@@ -58,7 +58,6 @@ const AboutPage = () => {
         }
 
         figure {
-          margin: 2rem auto 3rem;
           text-align: center;
         }
         figcaption {
