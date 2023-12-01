@@ -1,137 +1,148 @@
-import React, { Dispatch, useContext, useReducer } from 'react'
+import React, { createContext, useContext, useReducer } from 'react';
 
-export type CartItemType = TProduct & { quantity: number }
+export type ApprovedImagesState = {
+  approvedImages: number[];
+};
 
-export type CartState = {
-  [key: string]: CartItemType
-}
+export type ApprovedImagesAction = {
+  type: 'addApprovedImage' | 'removeApprovedImage';
+  imageId?: number;
+};
 
-export type CartAction = {
-  type: 'add' | 'remove'
-  item: TProduct
-  quantity?: number
-}
+const defaultApprovedImagesState: ApprovedImagesState = {
+  approvedImages: [],
+};
 
-const defaultState = {} as CartState
-
-const CartItemsContext = React.createContext(defaultState)
-const CartDispatchContext = React.createContext((() => {}) as Dispatch<
-  CartAction
->)
-
-const CartProvider = ({ children }: { children: React.ReactNode }) => {
-  const [state, dispatch] = useReducer(cartReducers, defaultState)
-
-  return (
-    <CartItemsContext.Provider value={state}>
-      <CartDispatchContext.Provider value={dispatch}>
-        {children}
-      </CartDispatchContext.Provider>
-    </CartItemsContext.Provider>
-  )
-}
-
-function cartReducers(
-  state: CartState,
-  { item, type, quantity: qtyToAdd = 1 }: CartAction
-) {
-  const existingCartItem = state[item.id]
-
+function approvedImagesReducers(
+  state: ApprovedImagesState,
+  { type, imageId }: ApprovedImagesAction
+): ApprovedImagesState {
   switch (type) {
-    case 'add': {
-      if (existingCartItem != undefined) {
-        const quantity = existingCartItem.quantity + qtyToAdd
-        return {
-          ...state,
-          [item.id]: {
-            ...existingCartItem,
-            quantity,
-          },
-        }
-      }
-
+    case 'addApprovedImage':
       return {
         ...state,
-        [item.id]: {
-          ...item,
-          quantity: qtyToAdd,
-        },
-      }
-    }
+        approvedImages: [...state.approvedImages, imageId!],
+      };
 
-    case 'remove': {
-      if (existingCartItem == undefined) {
-        return state
-      }
+    case 'removeApprovedImage':
+      return {
+        ...state,
+        approvedImages: state.approvedImages.filter((id) => id !== imageId),
+      };
 
-      const quantity = existingCartItem.quantity - 1
-      if (quantity > 0) {
-        return {
-          ...state,
-          [item.id]: {
-            ...existingCartItem,
-            quantity,
-          },
-        }
-      }
-
-      const newCartItems = { ...state }
-      delete newCartItems[item.id]
-      return newCartItems
-    }
-
-    default: {
-      throw new Error(`Unhandled action type: ${type}`)
-    }
+    default:
+      throw new Error(`Unhandled action type: ${type}`);
   }
 }
 
-const getCartSubTotal = (sum: number, item: CartItemType) => {
-  sum += item.price * item.quantity
-  return sum
+export type UserState = {
+  loggedIn: boolean;
+  username: string; // Add username property
+};
+
+export type UserAction = {
+  type: 'toggleLoggedIn' | 'updateUsername'; // Add updateUsername action type
+  username?: string; // Add username parameter
+};
+
+const defaultUserState: UserState = {
+  loggedIn: false,
+  username: '', // Add a default value for username
+};
+function userReducers(state: UserState, { type, username }: UserAction): UserState {
+  switch (type) {
+    case 'toggleLoggedIn':
+      return {
+        ...state,
+        loggedIn: !state.loggedIn,
+      };
+
+    case 'updateUsername':
+      return {
+        ...state,
+        username: username || '',
+      };
+
+
+    default:
+      throw new Error(`Unhandled action type: ${type}`);
+  }
 }
-const getCartCount = (sum: number, item: CartItemType) => sum + item.quantity
-/**
- * Hey there insatiably brain,
- * Are you interested in this pattern where the Context values are
- * exposed without actually provinding access to the Context itself :)
- * https://kentcdodds.com/blog/how-to-use-react-context-effectively
- */
-export const useCart = () => {
-  const itemsById = useContext(CartItemsContext)
-  const items = Object.values(itemsById)
-  // Not familiar with Array.reduce? :)
-  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce
-  const count = items.reduce(getCartCount, 0)
-  const subTotal = items.reduce(getCartSubTotal, 0)
+
+type CombinedState = UserState & ApprovedImagesState;
+
+const UserContext = createContext<CombinedState>({} as CombinedState);
+const UserDispatchContext = createContext<{
+  userDispatch: React.Dispatch<UserAction>;
+  approvedImagesDispatch: React.Dispatch<ApprovedImagesAction>;
+}>({
+  userDispatch: (() => {}) as React.Dispatch<UserAction>,
+  approvedImagesDispatch: (() => {}) as React.Dispatch<ApprovedImagesAction>,
+});
+
+
+const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [userState, userDispatch] = useReducer(userReducers, defaultUserState);
+  const [approvedImagesState, approvedImagesDispatch] = useReducer(
+    approvedImagesReducers,
+    defaultApprovedImagesState
+  );
+
+  const combinedState: CombinedState = {
+    ...userState,
+    approvedImages: approvedImagesState.approvedImages,
+  };
+
+  return (
+    <UserContext.Provider value={combinedState}>
+      <UserDispatchContext.Provider
+        value={{ userDispatch, approvedImagesDispatch }}
+      >
+        {children}
+      </UserDispatchContext.Provider>
+    </UserContext.Provider>
+  );
+};
+
+export const useUser = () => {
+  const { loggedIn, approvedImages, username } = useContext(UserContext);
 
   return {
-    items,
-    itemsById,
-    count,
-    subTotal,
-  }
-}
-export const useCartMutations = () => {
-  const dispatch = useContext(CartDispatchContext)
+    loggedIn,
+    approvedImages,
+    username,
+  };
+};
 
-  const addToCart = (product: TProduct, quantity?: number) =>
-    dispatch({
-      type: 'add',
-      item: product,
-      quantity,
-    })
 
-  const removeFromCart = (product: TProduct) =>
-    dispatch({
-      type: 'remove',
-      item: product,
-    })
+export const useUserMutations = () => {
+  const { userDispatch, approvedImagesDispatch } = useContext(UserDispatchContext);
+
+  const toggleLoggedIn = () =>
+    userDispatch({
+      type: 'toggleLoggedIn',
+    });
+
+  const addApprovedImage = (imageId: number) =>
+    approvedImagesDispatch({
+      type: 'addApprovedImage',
+      imageId,
+    });
+
+  const removeApprovedImage = (imageId: number) =>
+    approvedImagesDispatch({
+      type: 'removeApprovedImage',
+      imageId,
+    });
+    
 
   return {
-    addToCart,
-    removeFromCart,
-  }
-}
+    toggleLoggedIn,
+    addApprovedImage,
+    removeApprovedImage,
+    userDispatch, // Ensure that userDispatch is included in the returned object
+  };
+};
 
-export default CartProvider
+export { UserContext, UserDispatchContext };
+export default UserProvider;

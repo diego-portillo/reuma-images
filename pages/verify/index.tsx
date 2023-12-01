@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useEffect }  from 'react'
 import { Image, Header } from 'semantic-ui-react'
 import Layout from '@components/Layout/Layout'
-import Link from 'next/link'
+import { useRouter } from 'next/router';
+import { useUser } from '@store/user';
 import { GetStaticProps } from 'next'
 import ImageList from '@components/ImageList/ImageList'
 
@@ -17,7 +18,16 @@ export const getStaticProps: GetStaticProps = async () => {
     }
   }
 
-const AboutPage = ({ imageList }: { imageList: TImage[] }) => {
+const VerifyPage = ({ imageList }: { imageList: TImage[] }) => {
+  const { loggedIn } = useUser();
+  const router = useRouter();
+
+  useEffect(() => {
+    // Redirect to home if not logged in
+    if (!loggedIn) {
+      router.push('/');
+    }
+  }, [loggedIn, router]);
   return (
     <Layout>
       <section>
@@ -76,4 +86,4 @@ const AboutPage = ({ imageList }: { imageList: TImage[] }) => {
   )
 }
 
-export default AboutPage
+export default VerifyPage
