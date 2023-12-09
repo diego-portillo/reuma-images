@@ -72,7 +72,7 @@ const data: Record<TImageId, TImage> = {
       approvalDate: new Date(),
       approvedBy: 'Admin',
     },
-    approved: false
+    approved: true
   },
   '3zd33b8c': {
     name: 'Manos Síndrome de Sjögren',
@@ -87,7 +87,7 @@ const data: Record<TImageId, TImage> = {
       approvalDate: new Date(),
       approvedBy: 'Admin',
     },
-    approved: false
+    approved: true
   },
   'fpr72m9k': {
     name: 'Dedos artritis psoriásica',
@@ -102,7 +102,7 @@ const data: Record<TImageId, TImage> = {
       approvalDate: new Date(),
       approvedBy: 'Admin',
     },
-    approved: false
+    approved: true
   },
   't9dv25gs': {
     name: 'Cabeza polimialgia reumática',
@@ -117,7 +117,7 @@ const data: Record<TImageId, TImage> = {
       approvalDate: new Date(),
       approvedBy: 'Admin',
     },
-    approved: false
+    approved: true
   },
   't345w48y': {
     name: 'Cuello espondilitis anquilosante',
@@ -132,7 +132,7 @@ const data: Record<TImageId, TImage> = {
       approvalDate: new Date(),
       approvedBy: 'Admin',
     },
-    approved: false
+    approved: true
   },
 }
 

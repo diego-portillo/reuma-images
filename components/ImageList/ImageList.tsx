@@ -27,7 +27,7 @@ const mapImagesToCards = (images: TImage[]) =>
 
 const ImageList = ({ images }: ImageListProps) => (
   <div className='image-list-container'>
-    <Card.Group three centered className='cards-container'>
+    <Card.Group three="true" centered className='cards-container'>
       {mapImagesToCards(images)}
     </Card.Group>
     <style jsx>{`

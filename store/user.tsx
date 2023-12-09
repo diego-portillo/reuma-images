@@ -1,85 +1,133 @@
-import React, { createContext, useContext, useReducer } from 'react';
+// user.tsx (modified)
+import { createContext, useContext, useReducer, useEffect } from 'react';
 
-export type ApprovedImagesState = {
-  approvedImages: number[];
+export type UserState = {
+  loggedIn: boolean;
+  username: string;
 };
 
-export type ApprovedImagesAction = {
-  type: 'addApprovedImage' | 'removeApprovedImage';
-  imageId?: number;
+export type ApprovedImagesState = {
+  approvedImages: string[];
+};
+
+export type MessagesState = {
+  message: string;
+  type: 'success' | 'error' | 'alert';
+};
+
+const defaultMessagesState: MessagesState = {
+  message: '',
+  type: 'success',
+};
+
+export type UserAction = {
+  type: 'login' | 'logout';
+  username?: string;
+};
+
+export type ApprovedImagesAction =
+  | { type: 'addApprovedImage'; imageId: string }
+  | { type: 'removeApprovedImage'; imageId: string }
+  | { type: 'setApprovedImages'; approvedImages: string[] }; 
+
+
+export type MessagesAction = {
+  type: 'setMessage';
+  message: string;
+  messageType?: 'success' | 'error' | 'alert';
+};
+
+const defaultUserState: UserState = {
+  loggedIn: false,
+  username: '',
 };
 
 const defaultApprovedImagesState: ApprovedImagesState = {
-  approvedImages: [],
+  approvedImages: ['2zd33b8c', '6trfgkkj', '7bcr49em', '098323ks', '2zd33b9c'],
 };
+
+function userReducers(state: UserState, { type, username }: UserAction): UserState {
+  switch (type) {
+    case 'login':
+      if (!username) {
+        throw new Error(`Username cannot be empty when logging in.`);
+      }
+
+      return {
+        ...state,
+        loggedIn: true,
+        username: username,
+      };
+
+    case 'logout':
+      return {
+        ...state,
+        loggedIn: false,
+        username: '',
+      };
+
+    default:
+      throw new Error(`Unhandled action type: ${type}`);
+  }
+}
 
 function approvedImagesReducers(
   state: ApprovedImagesState,
-  { type, imageId }: ApprovedImagesAction
+  action: ApprovedImagesAction
 ): ApprovedImagesState {
-  switch (type) {
+  switch (action.type) {
     case 'addApprovedImage':
       return {
         ...state,
-        approvedImages: [...state.approvedImages, imageId!],
+        approvedImages: [...state.approvedImages, action.imageId],
       };
 
     case 'removeApprovedImage':
       return {
         ...state,
-        approvedImages: state.approvedImages.filter((id) => id !== imageId),
+        approvedImages: state.approvedImages.filter((id) => id !== action.imageId),
+      };
+
+    case 'setApprovedImages':
+      return {
+        ...state,
+        approvedImages: action.approvedImages || [],
       };
 
     default:
-      throw new Error(`Unhandled action type: ${type}`);
+      throw new Error(`Unhandled action type: ${action}`);
   }
 }
 
-export type UserState = {
-  loggedIn: boolean;
-  username: string; // Add username property
-};
 
-export type UserAction = {
-  type: 'toggleLoggedIn' | 'updateUsername'; // Add updateUsername action type
-  username?: string; // Add username parameter
-};
 
-const defaultUserState: UserState = {
-  loggedIn: false,
-  username: '', // Add a default value for username
-};
-function userReducers(state: UserState, { type, username }: UserAction): UserState {
+
+function messagesReducer(state: MessagesState, { type, message, messageType }: MessagesAction): MessagesState {
   switch (type) {
-    case 'toggleLoggedIn':
+    case 'setMessage':
       return {
         ...state,
-        loggedIn: !state.loggedIn,
+        message: message,
+        type: messageType || 'success',
       };
-
-    case 'updateUsername':
-      return {
-        ...state,
-        username: username || '',
-      };
-
 
     default:
-      throw new Error(`Unhandled action type: ${type}`);
+      return state;
   }
 }
 
-type CombinedState = UserState & ApprovedImagesState;
+type CombinedState = UserState & ApprovedImagesState & MessagesState;
 
 const UserContext = createContext<CombinedState>({} as CombinedState);
 const UserDispatchContext = createContext<{
   userDispatch: React.Dispatch<UserAction>;
   approvedImagesDispatch: React.Dispatch<ApprovedImagesAction>;
+  messagesDispatch: React.Dispatch<MessagesAction>;
 }>({
   userDispatch: (() => {}) as React.Dispatch<UserAction>,
   approvedImagesDispatch: (() => {}) as React.Dispatch<ApprovedImagesAction>,
+  messagesDispatch: (() => {}) as React.Dispatch<MessagesAction>,
 });
-
 
 const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [userState, userDispatch] = useReducer(userReducers, defaultUserState);
@@ -87,60 +135,101 @@ const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => 
     approvedImagesReducers,
     defaultApprovedImagesState
   );
+  const [messagesState, messagesDispatch] = useReducer(
+    messagesReducer,
+    defaultMessagesState
+  );
+
+  // Load initial state from localStorage on mount
+  useEffect(() => {
+    const storedLoggedIn = JSON.parse(localStorage.getItem('loggedIn') || 'false');
+    const storedUsername = localStorage.getItem('username') || '';
+    const storedApprovedImages = JSON.parse(localStorage.getItem('approvedImages') || '[]');
+  
+    if (storedLoggedIn) {
+      userDispatch({ type: 'login', username: storedUsername });
+      approvedImagesDispatch({ type: 'setApprovedImages', approvedImages: storedApprovedImages });
+    }
+  }, []); 
+  
 
   const combinedState: CombinedState = {
     ...userState,
     approvedImages: approvedImagesState.approvedImages,
+    message: messagesState.message,
+    type: messagesState.type,
   };
+
+  // Save state to localStorage whenever userState or approvedImagesState changes
+  useEffect(() => {
+    localStorage.setItem('loggedIn', JSON.stringify(userState.loggedIn));
+    localStorage.setItem('username', userState.username);
+    localStorage.setItem('approvedImages', JSON.stringify(approvedImagesState.approvedImages));
+  }, [userState.loggedIn, userState.username, approvedImagesState.approvedImages]);
 
   return (
     <UserContext.Provider value={combinedState}>
       <UserDispatchContext.Provider
-        value={{ userDispatch, approvedImagesDispatch }}
+        value={{
+          userDispatch,
+          approvedImagesDispatch,
+          messagesDispatch,
+        }}
       >
         {children}
       </UserDispatchContext.Provider>
     </UserContext.Provider>
   );
 };
-
 export const useUser = () => {
-  const { loggedIn, approvedImages, username } = useContext(UserContext);
+  const { loggedIn, approvedImages, username, message, type } = useContext(UserContext);
 
   return {
     loggedIn,
     approvedImages,
     username,
+    messagesState: { message, type },
   };
 };
 
-
 export const useUserMutations = () => {
-  const { userDispatch, approvedImagesDispatch } = useContext(UserDispatchContext);
+  const {
+    userDispatch,
+    approvedImagesDispatch,
+    messagesDispatch,
+  } = useContext(UserDispatchContext);
 
-  const toggleLoggedIn = () =>
-    userDispatch({
-      type: 'toggleLoggedIn',
-    });
-
-  const addApprovedImage = (imageId: number) =>
+  const addApprovedImage = (imageId: string) =>
     approvedImagesDispatch({
       type: 'addApprovedImage',
-      imageId,
+      imageId: imageId,
     });
 
-  const removeApprovedImage = (imageId: number) =>
+  const removeApprovedImage = (imageId: string) =>
     approvedImagesDispatch({
       type: 'removeApprovedImage',
-      imageId,
+      imageId: imageId,
     });
-    
+
+  const setMessage = (type: 'setMessage', message: string, messageType?: 'success' | 'error' | 'alert') =>
+    messagesDispatch({
+      type,
+      message,
+      messageType,
+    });
+
+  const logout = () =>
+    userDispatch({
+      type: 'logout',
+    });
 
   return {
-    toggleLoggedIn,
     addApprovedImage,
     removeApprovedImage,
-    userDispatch, // Ensure that userDispatch is included in the returned object
+    setMessage,
+    logout,
+    userDispatch,
+    messagesDispatch,
   };
 };
 

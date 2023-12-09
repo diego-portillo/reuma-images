@@ -1,10 +1,39 @@
 import React from 'react';
 import Layout from '@components/Layout/Layout';
 import { useRouter } from 'next/router';
+import { useUserMutations } from '@store/user';
+
 const RecoverPasswordPage = () => {
+  const { messagesDispatch } = useUserMutations();
+  const router = useRouter();
+  const isValidEmail = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
   const resetPassword = (event: React.MouseEvent) => {    
-    const router = useRouter();
-    router.push('/');
+    const email = document.getElementById('email') as HTMLInputElement | null;
+    if (email?.value === '') {
+      messagesDispatch({
+        type: 'setMessage',
+        message: 'Debes ingresar tu email para continuar.',
+        messageType: 'error',
+      });
+      return;
+    } else if (email?.value === null || email?.value === undefined || !isValidEmail(email?.value)){
+      messagesDispatch({
+        type: 'setMessage',
+        message: 'Email invalido.',
+        messageType: 'error',
+      });
+      return;
+    } else {
+      messagesDispatch({
+        type: 'setMessage',
+        message: 'Hemos enviado un email a tu direccion de correo ' + email?.value + '.',
+        messageType: 'success',
+      });
+      router.push('/');  
+    }
   }
   return (
     <Layout>
