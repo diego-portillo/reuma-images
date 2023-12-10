@@ -6,19 +6,6 @@ import { useUser, useUserMutations } from '@store/user';
 import { GetStaticProps } from 'next';
 import ImageList from '@components/ImageList/ImageList';
 
-export const getStaticProps: GetStaticProps = async () => {
-  // Fetch not approved images
-  const response = await fetch('http://localhost:3000/api/image');
-  const { data: allImageList }: TAPIReumaResponse = await response.json();
-  const approvedImageList = allImageList.filter((image: TImage) => image.approved);
-
-  return {
-    props: {
-      imageList: approvedImageList,
-    },
-  };
-};
-
 const VerifyPage = ({ imageList }: { imageList: TImage[] }) => {
   const { loggedIn, approvedImages } = useUser();
   const router = useRouter();

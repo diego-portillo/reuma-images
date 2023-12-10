@@ -1,5 +1,5 @@
 import React from 'react'
-import { Item, Label } from 'semantic-ui-react'
+import { Item, Label, Image } from 'semantic-ui-react'
 
 import ImageAttributes from './ImageAttributes'
 
@@ -12,7 +12,7 @@ const ImageSummary = ({ image }: ImageSummaryProps) => (
     <Item.Group as="section">
       <Item style={{ alignItems: 'center' }}>
         <Item.Image size="medium">
-          <img src={image.url} alt={image.name} />
+          <Image src={image.url} alt={image.name} />
         </Item.Image>
         <Item.Content>
           <Item.Header as="h1">{image.name}</Item.Header>

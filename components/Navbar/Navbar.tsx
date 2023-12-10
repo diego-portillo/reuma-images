@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import Link from 'next/link';
-import { Menu, Container } from 'semantic-ui-react';
+import { Menu } from 'semantic-ui-react';
+
 import { useUser, useUserMutations } from '@store/user';
 import MessageDisplay from '@components/MessageDisplay/MessageDisplay';
-import { useRouter } from 'next/router';
-
 
 const Navbar = () => {
   const { pathname } = useRouter();
   const { loggedIn, username, messagesState } = useUser();
-  const { logout, messagesDispatch } = useUserMutations(); 
+  const { logout, messagesDispatch } = useUserMutations();
   const router = useRouter();
   const [containerHeight, setContainerHeight] = useState(0);
   const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
@@ -27,10 +27,9 @@ const Navbar = () => {
   }, [showMessage]);
 
   const handleLogout = () => {
-    logout(); 
+    logout();
     router.push('/');
   };
-
 
   const showMessageAndDispatch = (message: string, messageType: 'success' | 'error' | 'alert' = 'success') => {
     setShowMessage(message);
@@ -43,13 +42,13 @@ const Navbar = () => {
   };
 
   return (
-<Menu size={isMobile ? 'small' : 'large'} borderless style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+    <Menu size={isMobile ? 'small' : 'large'} borderless style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }} onLoad={(e) => setContainerHeight((e.nativeEvent as any).target.offsetHeight)}>
     {showMessage && (
       <MessageDisplay
         message={showMessage}
         messageType="success"
-        containerHeight={containerHeight} // Pass container height as a prop
+        containerHeight={containerHeight}
       />
     )}
 
@@ -57,63 +56,58 @@ const Navbar = () => {
       <MessageDisplay
         message={messagesState.message}
         messageType={messagesState.type}
-        containerHeight={containerHeight} // Pass container height as a prop
+        containerHeight={containerHeight}
       />
     )}
     <Menu.Menu style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
-    {!loggedIn && !isMobile && (
-        <Link href="/about" passHref>
-          <Menu.Item
-            title="About"
-            className={pathname === '/about' ? 'active-link' : ''}
-          >
-            Info
-          </Menu.Item>
-        </Link>
-      )}
       <Link href="/" passHref>
         <Menu.Item
           title="Inicio | Todas las imágenes"
-          className={pathname === '/' ? 'active-link' : ''}
+          className={`menu-item ${pathname === '/' ? 'active-link' : ''}`}
         >
-         Todas las Imágenes
+          Todas las Imágenes
         </Menu.Item>
       </Link>
-      
-      {!loggedIn && (
-        <Link href="/iniciar-sesion" passHref>
+   
+        <Link href="/about" passHref style={{ display: !loggedIn && !isMobile ?'flex' : 'none'}}>
           <Menu.Item
-            className={pathname === '/iniciar-sesion' ? 'active-link' : ''}
+            title="About"
+            className={`menu-item ${pathname === '/about' ? 'active-link' : ''}`}
+          >
+            Nosotros
+          </Menu.Item>
+        </Link>
+
+        <Link href="/iniciar-sesion" passHref style={{ display: !loggedIn  ?'flex' : 'none'}}>
+          <Menu.Item
+            className={`menu-item ${pathname === '/iniciar-sesion' ? 'active-link' : ''}`}
           >
             Iniciar Sesión
           </Menu.Item>
         </Link>
-      )}
-      {loggedIn && (
-        <>
-        <Link href="/verify" passHref>
+        <Link href="/verify" passHref style={{ display: loggedIn  ?'flex' : 'none'}}>
             <Menu.Item
               title="verify"
-              className={pathname === '/verify' ? 'active-link' : ''}
+              className={`menu-item ${pathname === '/verify' ? 'active-link' : ''}`}
             >
               Revisar Imágenes
             </Menu.Item>
           </Link>
-          <Menu.Item style={{ display: isMobile ? 'none' : 'flex' }}>
+          <Menu.Item style={{ display: loggedIn && !isMobile ? 'flex' : 'none' }} className="menu-item">
             Bienvenido {username}
           </Menu.Item>
-          
-          <Menu.Item onClick={handleLogout}>
+
+          <Menu.Item onClick={handleLogout} style={{ display: loggedIn  ?'flex' : 'none'}}>
             Cerrar Sesión
           </Menu.Item>
-        </>
-      )}
+      
     </Menu.Menu>
   </div>
 </Menu>
 
-
   );
 };
+
+
 
 export default Navbar;

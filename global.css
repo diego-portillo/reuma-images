@@ -9,3 +9,10 @@ main {
   max-width: 100%;
   margin: 0 auto;
 }
+.menu-item {
+  display: flex; /* default display value */
+}
+
+.menu-item.hide {
+  display: none;
+}

@@ -1,12 +1,11 @@
-import Document, { Html, Head, Main, NextScript } from 'next/document'
+// pages/_document.js
+import Document, { Html, Head, Main, NextScript } from 'next/document';
 
 class MyDocument extends Document {
   render() {
     return (
       <Html lang="en">
         <Head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-
           {/** FavIcon */}
           {/** WebFont */}
           {/** stylesheets */}
@@ -17,8 +16,8 @@ class MyDocument extends Document {
           <NextScript />
         </body>
       </Html>
-    )
+    );
   }
 }
 
-export default MyDocument
+export default MyDocument;

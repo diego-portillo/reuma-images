@@ -5,30 +5,24 @@ import fetch from 'isomorphic-unfetch';
 import Layout from '@components/Layout/Layout';
 import ImageList from '@components/ImageList/ImageList';
 
-export const getStaticProps: GetStaticProps = async () => {
-  const response = await fetch('http://localhost:3000/api/image');
-  const { data: allImageList }: TAPIReumaResponse = await response.json();
-  const approvedImageList = allImageList.filter((image: TImage) => image.approved);
-
-  return {
-    props: {
-      imageList: approvedImageList,
-    },
-  };
-};
-
-const HomePage = ({ imageList }: { imageList: TImage[] }) => {
+const HomePage = () => {
   const { approvedImages } = useUser(); 
   const [filteredImages, setFilteredImages] = useState<TImage[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    // Filter the images based on the approvedImages array
-    const filtered = imageList.filter((image) => approvedImages.includes(image.id));
-    
-    setFilteredImages(filtered);
-    setLoading(false);
-  }, [imageList, approvedImages]);
+  const fetchData = async () => {
+    try {
+      const response = await fetch('http://localhost:3000/api/image');
+      const { data: allImageList }: TAPIReumaResponse = await response.json();
+      const approvedImageList = allImageList.filter((image: TImage) => approvedImages.includes(image.id));
+      setFilteredImages(approvedImageList);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  fetchData();
 
   return (
     <Layout>
@@ -40,7 +34,7 @@ const HomePage = ({ imageList }: { imageList: TImage[] }) => {
   <ImageList images={filteredImages} />
 ) : (
   // Display a message when there are no filtered images
-  <div style={{textAlign: 'center', padding:'6rem', fontSize:'1.5rem'}}>No se encontraron imágenes...</div>
+  <div style={{textAlign: 'center', padding:'6rem', fontSize:'1rem'}}>No se encontraron imágenes...</div>
 )}
       <style jsx>{`
         section {
